@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var score = 0
     var correctAnswer = 0
     var questionsAsked = 0
+    var player = [Player]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +34,28 @@ class ViewController: UIViewController {
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
         
+        initializePlayer()
+        
         askQuestion()
+        print("highscore: \(player[0].highScore)")
+    }
+    
+    func initializePlayer() {
+        
+        let defaults = UserDefaults.standard
+        if let savedPlayer = defaults.object(forKey: "player") as? Data {
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                player = try jsonDecoder.decode([Player].self, from: savedPlayer)
+                print("player \(player)")
+                print("player 0: \(player)")
+            } catch {
+                print("Failed to load player.")
+            }
+        } else {
+            player.append(Player(highScore: 0))
+        }
     }
 
     func askQuestion(action: UIAlertAction! = nil) {
@@ -60,15 +82,27 @@ class ViewController: UIViewController {
         if sender.tag == correctAnswer {
             title = "Correct"
             score += 1
+            
         } else {
             title = "Wrong! That's the flag of \(countries[sender.tag].uppercased())"
-            score -= 1
+            if score > 0 { score -= 1 }
         }
         
-        if score == 3 {
-            let ac = UIAlertController(title: title, message: "Your final score is \(score)", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Restart", style: .default, handler: startOver))
-            present(ac, animated: true)
+        print("questionsasked: \(questionsAsked)")
+        if questionsAsked == 5 {
+            
+            if score > player[0].highScore {
+                player[0].highScore = score
+                save()
+                let ac = UIAlertController(title: "Congratulations!", message: "New high score! \(score)", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "Restart", style: .default, handler: startOver))
+                present(ac, animated: true)
+            } else {
+                let ac = UIAlertController(title: title, message: "Your final score is \(score)", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "Restart", style: .default, handler: startOver))
+                present(ac, animated: true)
+            }
+                
         } else {
             let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
@@ -81,6 +115,17 @@ class ViewController: UIViewController {
         let vc = UIActivityViewController(activityItems: ["Score: \(score)"], applicationActivities: [])
         vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         present(vc, animated: true)
+    }
+    
+    func save() {
+        let jsonEncoder = JSONEncoder()
+        
+        if let savedData = try? jsonEncoder.encode(player) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "player")
+        } else {
+            print("Failed to load player.")
+        }
     }
     
 }

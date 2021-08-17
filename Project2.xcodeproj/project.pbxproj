@@ -13,6 +13,7 @@
 		5522762D26B4A0B200A458BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5522762B26B4A0B200A458BA /* Main.storyboard */; };
 		5522762F26B4A0B400A458BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5522762E26B4A0B400A458BA /* Assets.xcassets */; };
 		5522763226B4A0B400A458BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5522763026B4A0B400A458BA /* LaunchScreen.storyboard */; };
+		55C7600526CB30E800101D14 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7600426CB30E800101D14 /* Player.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		5522762E26B4A0B400A458BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5522763126B4A0B400A458BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5522763326B4A0B400A458BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55C7600426CB30E800101D14 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				5522762526B4A0B200A458BA /* AppDelegate.swift */,
 				5522762726B4A0B200A458BA /* SceneDelegate.swift */,
 				5522762926B4A0B200A458BA /* ViewController.swift */,
+				55C7600426CB30E800101D14 /* Player.swift */,
 				5522762B26B4A0B200A458BA /* Main.storyboard */,
 				5522762E26B4A0B400A458BA /* Assets.xcassets */,
 				5522763026B4A0B400A458BA /* LaunchScreen.storyboard */,
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55C7600526CB30E800101D14 /* Player.swift in Sources */,
 				5522762A26B4A0B200A458BA /* ViewController.swift in Sources */,
 				5522762626B4A0B200A458BA /* AppDelegate.swift in Sources */,
 				5522762826B4A0B200A458BA /* SceneDelegate.swift in Sources */,
