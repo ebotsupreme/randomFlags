@@ -37,7 +37,6 @@ class ViewController: UIViewController {
         initializePlayer()
         
         askQuestion()
-        print("highscore: \(player[0].highScore)")
     }
     
     func initializePlayer() {
@@ -48,8 +47,6 @@ class ViewController: UIViewController {
             
             do {
                 player = try jsonDecoder.decode([Player].self, from: savedPlayer)
-                print("player \(player)")
-                print("player 0: \(player)")
             } catch {
                 print("Failed to load player.")
             }
@@ -79,6 +76,12 @@ class ViewController: UIViewController {
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
         
+        UIView.animate(withDuration: 3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 4, options: []) {
+            sender.imageView?.transform = CGAffineTransform(scaleX: 2, y: 2)
+        } completion: { finished in
+            sender.imageView?.transform = .identity
+        }
+        
         if sender.tag == correctAnswer {
             title = "Correct"
             score += 1
@@ -88,7 +91,6 @@ class ViewController: UIViewController {
             if score > 0 { score -= 1 }
         }
         
-        print("questionsasked: \(questionsAsked)")
         if questionsAsked == 5 {
             
             if score > player[0].highScore {
