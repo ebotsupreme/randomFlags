@@ -150,6 +150,8 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     }
     
     @objc func scheduleLocal() {
+        registerCategories()
+        
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         
@@ -160,7 +162,8 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         content.userInfo = ["userID": "user123"]
         content.sound = .default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 86400, repeats: repeatReminder)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 86400, repeats: repeatReminder)
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         center.add(request)
@@ -174,6 +177,27 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         let category = UNNotificationCategory(identifier: "alarm", actions: [play], intentIdentifiers: [])
         
         center.setNotificationCategories([category])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        if let userData = userInfo["userID"] as? String {
+            print("User data received: \(userData)")
+            
+            switch response.actionIdentifier {
+            case UNNotificationDefaultActionIdentifier:
+                print("Default identifer")
+                
+            case "play":
+                print("Let the games begin!")
+                
+            default:
+                break
+            }
+        }
+        
+        completionHandler()
     }
     
 }
