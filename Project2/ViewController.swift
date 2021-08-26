@@ -147,7 +147,20 @@ class ViewController: UIViewController {
     }
     
     @objc func scheduleLocal() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
         
+        let content = UNMutableNotificationContent()
+        content.title = "Play reminder"
+        content.body = "You haven't played in awhile. Come back and play!"
+        content.categoryIdentifier = "alarm"
+        content.userInfo = ["userID": "user123"]
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 86400, repeats: true)
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        center.add(request)
     }
     
 }
