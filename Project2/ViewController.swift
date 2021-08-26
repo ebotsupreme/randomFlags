@@ -160,7 +160,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         content.userInfo = ["userID": "user123"]
         content.sound = .default
         
-        let secondsPerDay: TimeInterval = 15
+        let secondsPerDay: TimeInterval = 86400
         for day in 1...7 {
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: secondsPerDay * Double(day), repeats: false)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
