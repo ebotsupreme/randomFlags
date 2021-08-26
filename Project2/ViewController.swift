@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
@@ -18,6 +18,9 @@ class ViewController: UIViewController {
     var correctAnswer = 0
     var questionsAsked = 0
     var player = [Player]()
+    
+    var reminderCount = 7
+    var repeatReminder = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,10 +160,20 @@ class ViewController: UIViewController {
         content.userInfo = ["userID": "user123"]
         content.sound = .default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 86400, repeats: true)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 86400, repeats: repeatReminder)
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         center.add(request)
+    }
+    
+    func registerCategories() {
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        
+        let play = UNNotificationAction(identifier: "play", title: "Let's play!", options: .foreground)
+        let category = UNNotificationCategory(identifier: "alarm", actions: [play], intentIdentifiers: [])
+        
+        center.setNotificationCategories([category])
     }
     
 }
