@@ -19,17 +19,15 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     var questionsAsked = 0
     var player = [Player]()
     
-    var reminderCount = 7
-    var repeatReminder = true
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showScore))
         let scheduleButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(scheduleLocal))
         let registerButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(registerLocal))
-//        let scheduleButton = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
-//        let registerButton = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(registerLocal))
         navigationItem.leftBarButtonItems = [scheduleButton, registerButton]
         
         countries = ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
@@ -162,11 +160,12 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         content.userInfo = ["userID": "user123"]
         content.sound = .default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 86400, repeats: repeatReminder)
-        
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        center.add(request)
+        let secondsPerDay: TimeInterval = 15
+        for day in 1...7 {
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: secondsPerDay * Double(day), repeats: false)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            center.add(request)
+        }
     }
     
     func registerCategories() {
