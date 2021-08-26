@@ -23,8 +23,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showScore))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(registerLocal))
+        let scheduleButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(scheduleLocal))
+        let registerButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(registerLocal))
+//        let scheduleButton = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
+//        let registerButton = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(registerLocal))
+        navigationItem.leftBarButtonItems = [scheduleButton, registerButton]
         
         countries = ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
         
@@ -133,7 +136,14 @@ class ViewController: UIViewController {
     }
     
     @objc func registerLocal() {
-        
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if granted {
+                print("Granted!")
+            } else {
+                print("Denied!")
+            }
+        }
     }
     
     @objc func scheduleLocal() {
