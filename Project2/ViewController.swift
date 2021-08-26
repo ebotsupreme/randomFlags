@@ -23,6 +23,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showScore))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(registerLocal))
         
         countries = ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
         
@@ -128,6 +130,14 @@ class ViewController: UIViewController {
         } else {
             print("Failed to load player.")
         }
+    }
+    
+    @objc func registerLocal() {
+        
+    }
+    
+    @objc func scheduleLocal() {
+        
     }
     
 }
